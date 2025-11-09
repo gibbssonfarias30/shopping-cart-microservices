@@ -34,15 +34,10 @@ springdoc:
   description: "Api for product"
   version: "v1.0.0"
   contact-name: "Gibbsson Farias Castillo"
-  contact-email: "gibbsson.farias@.com"
+  contact-email: "gibbfarc17@gmail.com"
   contact-url: "https://github.com/gibbssonfarias30"
 
   api-docs:
     path: /api-docs
-  #  packages-to-scan:
-  #  - com.codearti.application.rest
-  #  paths-to-match:
-  #  - /v1
   swagger-ui:
     path: /swagger-ui.html
-#    operations-sorter: alpha
