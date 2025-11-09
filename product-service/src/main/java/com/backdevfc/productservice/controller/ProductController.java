@@ -21,12 +21,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductController {
 	
-	private final IProductService service;
+	private final IProductService productService;
 	private final ServletWebServerApplicationContext webServer;
 	
 	@GetMapping
 	ResponseEntity<List<ProductResponse>> findAll(@RequestParam(required = false) ProductStatus status) {
-		var result = service.findAll(status, currentPort());
+		var result = productService.findAll(status, currentPort());
 		return result.isEmpty()
 				? ResponseEntity.noContent().build()
 				: ResponseEntity.ok(result);
@@ -34,35 +34,35 @@ public class ProductController {
 	
 	@GetMapping(value = "/{id}")
 	ResponseEntity<ProductResponse> findById(@PathVariable Long id) {
-		var response = service.findById(id, currentPort());
+		var response = productService.findById(id, currentPort());
 		return ResponseEntity.ok(response);
 	}
 	
 	@PostMapping
 	ResponseEntity<ProductResponse> create(@Valid @RequestBody ProductRequest request) {
-		var response = service.save(request, currentPort());
+		var response = productService.save(request, currentPort());
 		return ResponseEntity
-				.created(URI.create("/" + response.getId()))
+				.created(URI.create("/products/".concat(response.getId().toString())))
 				.body(response);
 	}
 	
 	@PutMapping(value="/{id}")
 	public ResponseEntity<ProductResponse> update(@PathVariable Long id,
 												  @Valid @RequestBody ProductUpdateRequest request) {
-		var response = service.update(id, request, currentPort());
+		var response = productService.update(id, request, currentPort());
 		return ResponseEntity.ok(response);
 	}
 	
 	@PatchMapping(value = "/{id}/stock")
 	public ResponseEntity<ProductResponse> updateStock(@PathVariable Long id,
 													   @Valid @RequestBody ProductUpdateStockRequest request) {
-		var response = service.updateStock(id, request, currentPort());
+		var response = productService.updateStock(id, request, currentPort());
 		return ResponseEntity.ok(response);
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete(@PathVariable Long id) {
-		service.delete(id, currentPort());
+	public ResponseEntity<Void> delete(@PathVariable Long id) {
+		productService.delete(id, currentPort());
 		return ResponseEntity.noContent().build();
 	}
 
