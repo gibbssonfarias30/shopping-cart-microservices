@@ -1,1 +1,27 @@
+server:
+  port: 8888
 
+spring:
+  application:
+    name: config-server
+
+  cloud:
+    config:
+      fail-fast: true
+      retry:
+        initial-interval: 3000
+        multiplier: 1.3
+        max-interval: 10000
+        max-attempts: 20
+      server:
+        git:
+          default-label: ${GIT_BRANCH}
+          uri: ${GIT}
+          ignore-local-ssh-settings: true
+          passphrase: ${GIT_PASSPHRASE}
+          private-key: ${GIT_SSH_KEY}
+
+  security:
+    user:
+      name: ${CONFIG_SERVER_USERNAME:admin}
+      password: ${CONFIG_SERVER_PASSWORD:admin}
